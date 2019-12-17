@@ -1,0 +1,14 @@
+language: python
+python:
+- '3.6'
+script:
+- echo ok
+deploy:
+  provider: pypi
+  user: xiachufang
+  password:
+    secure: p8vjhwtO7YLu2egIj+al8OkSHLKi7IJnD8icB1Fr8ofLDo5LM+4Y+CgA+ehBCx7XttYz8lV2Gg7zMtHvt92PX1s3a6qo+LPgLR1yQNzK3I8tPMlEPY8lyJ2kHyR9Z7pwxwKwiEqXarnNoqxEkxjf2bQ+VT3RloatiujKs11M88AHpmveJXBoeO7/xM2WIoM+Y5Bdn/0EauBt2/XWd18YNnOgE+Uob6nA6OPAAhihuYDxTcjwpdpmqhvJj8hNwKfc+gcd9uk6QGgq1TSFoC3Nxm0fYVjOYpqo7MfucrdUMqxL6L9GW/wfLU4FF2U4ANYvCtHvX2mq/pAFpps9tVqaRS3erBS//fBk6F9MCPKezadnrTZR6Bp2YkuTHoOifbHkvtysirnM7FhE417oQm9aj1FLSkDvyYckCBEtlJO/+1a6SPvhT3mwgLk9zzWNOxNHJ4q3GgQ72VL/1WEkODdQ/FPW/l6uwmlsV4zh8I//41Kf4i090f+Lp4NWwbVqiECsgrs8B9SNFsEuvz67kXeUm42XsyYTKaphF2cGb3qwAx258Ko8YbqfqIXYtgzilRAuWnOTqF4ygfeLfEciHKb7uzPRHMJSyS63/tJrz3Fk1CtIdNO3oszB+JpdkJGjV60Mlj+a6TaTtxrjLvBP/w8OJg92BTIU45yIUUrzSoGyHD8=
+  on:
+    tags: true
+    distributions: sdist bdist_wheel
+    repo: xiachufang/wsgi-monkeytype
