@@ -13,6 +13,7 @@ setup(
     author_email='xcf@xiachufang.com',
     description='some monkeytype utils for wsgi application',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     packages=['wsgi_monkeytype'],
     install_requires=[
         'monkeytype',
