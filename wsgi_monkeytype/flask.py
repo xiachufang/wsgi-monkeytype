@@ -14,7 +14,7 @@ class MonkeyType(object):
 
     def init_app(self, app: Flask):
         app.before_request(self.before_request)
-        app.teardown_appcontext(self.teardown)
+        app.teardown_request(self.teardown)
 
     def before_request(self):
         sys.setprofile(self.tracer)
