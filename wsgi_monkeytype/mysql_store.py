@@ -148,3 +148,6 @@ class MysqlStoreMonkeyTypeConfig(Config):
 
     def type_rewriter(self) -> TypeRewriter:
         return self._type_rewriter
+
+    def sample_rate(self) -> Optional[int]:
+        return self._sample_rate
