@@ -1,4 +1,5 @@
 import datetime
+import logging
 
 import MySQLdb
 
@@ -18,6 +19,11 @@ from monkeytype.tracing import CallTrace, CodeFilter
 from monkeytype.config import default_code_filter
 
 DEFAULT_TABLE = 'monkeytype_call_traces'
+QueryValue = Union[str, int]
+ParameterizedQuery = Tuple[str, List[QueryValue]]
+
+
+logger = logging.getLogger("wsgi_monkeytype.mysql_store")
 
 
 def create_call_trace_table(conn: SteadyDBConnection, table: str = DEFAULT_TABLE) -> None:
@@ -27,9 +33,9 @@ CREATE TABLE IF NOT EXISTS {table} (
   created_at  date,
   module      varchar(128),
   qualname    text,
-  arg_types   text,
-  return_type text,
-  yield_type  text,
+  arg_types   mediumtext,
+  return_type mediumtext,
+  yield_type  mediumtext,
   PRIMARY KEY(id),
   KEY idx_module (module(12))
   );
@@ -54,10 +60,6 @@ def parse_connection_string_to_dict(url):
     if parsed.port:
         connect_kwargs['port'] = parsed.port
     return connect_kwargs
-
-
-QueryValue = Union[str, int]
-ParameterizedQuery = Tuple[str, List[QueryValue]]
 
 
 def make_query(table: str, module: str, qualname: Optional[str], limit: int) -> ParameterizedQuery:
@@ -120,12 +122,15 @@ class MySQLStore(CallTraceStore):
         for row in serialize_traces(traces):
             values.append((today, row.module, row.qualname,
                            row.arg_types, row.return_type, row.yield_type))
-        with self.conn:
-            cur = self.conn.cursor()
-            query = """
-            INSERT INTO {table} (created_at, module, qualname, arg_types, return_type, yield_type)
-            VALUES (%s, %s, %s, %s, %s, %s)""".format(table=self.table)
-            cur.executemany(query, values)
+        try:
+            with self.conn:
+                cur = self.conn.cursor()
+                query = """
+                INSERT INTO {table} (created_at, module, qualname, arg_types, return_type, yield_type)
+                VALUES (%s, %s, %s, %s, %s, %s)""".format(table=self.table)
+                cur.executemany(query, values)
+        except Exception as e:
+            logger.exception(str(e))
 
 
 class MysqlStoreMonkeyTypeConfig(Config):
