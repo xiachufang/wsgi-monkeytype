@@ -6,7 +6,7 @@ with open('README.md') as readme:
 
 setup(
     name='WSGI-MonkeyType',
-    version='1.0.0',
+    version='1.0.1',
     url='https://github.com/xiachufang/wsgi-monkeytype',
     license='BSD',
     author='xcf',
