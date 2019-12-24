@@ -76,7 +76,7 @@ def make_query(table: str, module: str, qualname: Optional[str], limit: int) -> 
         values.append(qualname)
     raw_query += """
     GROUP BY
-        module, qualname, arg_types, return_type, yield_type
+        module, qualname, arg_types, return_type, yield_type, created_at
     ORDER BY created_at DESC
     LIMIT %s
     """
